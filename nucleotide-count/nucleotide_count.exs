@@ -1,6 +1,7 @@
 defmodule DNA do
   @nucleotides [?A, ?C, ?G, ?T]
 
+
   @doc """
   Counts individual nucleotides in a DNA strand.
 
@@ -13,7 +14,7 @@ defmodule DNA do
   1
   """
   @spec count([char], char) :: non_neg_integer
-  def count(strand, nucleotide) do
+  def count(strand, nucleotide) when nucleotide in [?A, ?T, ?C, ?G] do
     Enum.filter(strand, &(&1 == nucleotide))
     |> Enum.reduce(0, fn (_, acc) -> acc+1 end)
   end
@@ -29,6 +30,8 @@ defmodule DNA do
   """
   @spec histogram([char]) :: map
   def histogram(strand) do
-    strand
+    for n <- [?A, ?T, ?C, ?G], into: %{} do
+      {n, count(strand, n)}
+    end
   end
 end
