@@ -9,7 +9,19 @@ defmodule Raindrops do
     just pass the number's digits straight through.
   """
   @spec convert(pos_integer) :: String.t
-  def convert(number) do
+  def convert(n) do
+    out = %{3 => "Pling", 5 => "Plang", 7 => "Plong"}
+    |> Enum.reduce({"", n}, fn({k, v}, {acc, n}) ->
+      case rem(n, k) do
+        0 -> {acc <> v, n}
+        _ -> {acc, n}
+      end
+    end)
+    |> elem(0)
 
+    case out do
+      "" -> Integer.to_string(n)
+      _ -> out
+    end
   end
 end
